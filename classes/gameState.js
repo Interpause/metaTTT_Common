@@ -66,8 +66,8 @@ module.exports = class State {
 				this.grid.winner = -1;
 				this.winner = -1;
 			}else if(big_win == 1){
-				this.grid.winner = this.plyr;
-				this.winner = this.plyr;
+				this.grid.winner = this.cur_player_ind;
+				this.winner = this.cur_player_ind;
 			}
 		}
 	}
