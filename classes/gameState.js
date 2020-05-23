@@ -1,5 +1,5 @@
-const enums = require("$/utils/enums");
-const gconf = require("$/utils/game_config");
+const enums = require("../utils/enums");
+const gconf = require("../utils/game_config");
 
 module.exports = class State {
 	config 			= gconf;//Default game config

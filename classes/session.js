@@ -1,6 +1,6 @@
-const enums = require("$/utils/enums");
-const gconf = require("$/utils/enums");
-const gameState = require("$/classes/gameState");
+const enums = require("../utils/enums");
+const gconf = require("../utils/enums");
+const gameState = require("../classes/gameState");
 
 module.exports = class Session {
 	state	  		= {};		//The session's gameState.
