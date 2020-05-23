@@ -87,10 +87,10 @@ module.exports = class Session extends EventEmitter {
 		if(this.isStarted) throw new Error(enums.started);
 		this.isStarted = true;
 		if(this.num_players != this.max_players) throw new Error(enums.error);
-		if(!this.online){
-			this.gui.receiveBoard(this.state);
-			this.gui.receivePlayersInfo(this.player_ids);
-		}
 		this.state.player_ids = this.player_ids;
+		if(!this.online){
+			this.gui.receivePlayersInfo(this.player_ids);
+			this.gui.receiveBoard(this.state);
+		}
 	}
 }
