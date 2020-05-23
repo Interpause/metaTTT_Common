@@ -1,8 +1,9 @@
 const enums = require("../utils/enums");
 const gconf = require("../utils/enums");
 const gameState = require("../classes/gameState");
+const EventEmitter = require('events');
 
-module.exports = class Session {
+module.exports = class Session extends EventEmitter {
 	state	  		= {};		//The session's gameState.
 	isStarted 		= false;	//Whether the game has started. Used in server.
 	num_players	  	= 0;		//Number of players currently.
