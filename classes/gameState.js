@@ -15,14 +15,14 @@ module.exports = class State {
 	//if from_json=true, reconstructs State object from js object.
 	constructor(obj,from_json){
 		if(from_json){
-			config = obj.config;
-			history = obj.history;
-			player_ids = obj.player_ids;
-			grid = obj.grid;
-			turns = obj.turns;
-			winner = obj.winner;
-			cur_board = obj.cur_board;
-			cur_player_ind = obj.cur_player_ind;
+			this.config = obj.config;
+			this.history = obj.history;
+			this.player_ids = obj.player_ids;
+			this.grid = obj.grid;
+			this.turns = obj.turns;
+			this.winner = obj.winner;
+			this.cur_board = obj.cur_board;
+			this.cur_player_ind = obj.cur_player_ind;
 			return;
 		}
 		if(obj) this.config = obj;
@@ -104,9 +104,9 @@ module.exports = class State {
 
 	//Basic safeguards against invalid moves
 	checkMoveValid(move){
-		if(this.winner != null) throw new error(enums.error);
-		if(this.cur_board != null && this.cur_board != move[0]) throw new error(`${enums.locked}: ${move[0]},${move[1]}`);
-		if(this.grid[move[0]][move[1]].winner != null) throw new error(`${enums.occupied}: ${move[0]},${move[1]}`);
+		if(this.winner != null) throw new Error(enums.error);
+		if(this.cur_board != null && this.cur_board != move[0]) throw new Error(`${enums.locked}: ${move[0]},${move[1]}`);
+		if(this.grid[move[0]][move[1]].winner != null) throw new Error(`${enums.occupied}: ${move[0]},${move[1]}`);
 	}
 
 	//helper functions to convert from 1D coord to 2D coord and vice versa

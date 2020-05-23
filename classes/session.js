@@ -17,6 +17,7 @@ module.exports = class Session extends EventEmitter {
 
 	//Creates the session. If gui is present, starts in local mode. Else server session mode.
 	constructor(gui){
+		super();
 		this.gui = gui;
 		this.online = (gui==null);
 	}
@@ -39,8 +40,8 @@ module.exports = class Session extends EventEmitter {
 	}
 
 	addPlayer(pid){
-		if(this.isStarted) throw new error(enums.started);
-		if(this.max_players == this.num_players) throw new error(enums.full);
+		if(this.isStarted) throw new Error(enums.started);
+		if(this.max_players == this.num_players) throw new Error(enums.full);
 		this.player_ids.push(pid);
 		this.addSpectator(pid);
 		this.num_players++;
@@ -60,7 +61,7 @@ module.exports = class Session extends EventEmitter {
 
 	getState(pid){
 		if(this.spectators.indexOf(pid) > -1) return this.state;
-		else throw new error(enums.locked);
+		else throw new Error(enums.locked);
 	}
 
 	getInfo(){
@@ -79,13 +80,13 @@ module.exports = class Session extends EventEmitter {
 
 	setInput(pid,move){
 		if(this.state.cur_player == pid) this.state.place(move);
-		else throw new error(enums.locked);
+		else throw new Error(enums.locked);
 	}
 
 	start(){
+		if(this.isStarted) throw new Error(enums.started);
 		this.isStarted = true;
-		if(this.num_players != this.max_players) throw new error(enums.error);
-		if(this.isStarted) throw new error(enums.started);
+		if(this.num_players != this.max_players) throw new Error(enums.error);
 		if(!this.online){
 			this.gui.receiveBoard(this.state);
 			this.gui.receivePlayersInfo(this.players);
