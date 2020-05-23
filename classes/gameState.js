@@ -43,7 +43,7 @@ module.exports = class State {
 		this.checkMoveValid(move);
 		this.grid[move[0]][move[1]].winner = this.cur_player_ind; //winner is set as index, not id
 		this.history.push([this.cur_player,move]);
-		this.updateWins();
+		this.updateWins(move[0]);
 
 		if(this.grid[move[1]].winner != null) this.cur_board = null;
 		else this.cur_board = move[1];
@@ -53,13 +53,13 @@ module.exports = class State {
 	}
 
 	//Updates wins in board
-	updateWins(){
+	updateWins(ind){
 		if(this.winner != null) return;
 
-		let small_win = this.checkWin(this.grid[this.cur_board]);
-		if(small_win == -1) this.grid[this.cur_board].winner = -1;
+		let small_win = this.checkWin(this.grid[ind]);
+		if(small_win == -1) this.grid[ind].winner = -1;
 		else if(small_win == 1){
-			this.grid[this.cur_board].winner = this.cur_player_ind;
+			this.grid[ind].winner = this.cur_player_ind;
 
 			let big_win = this.checkWin(this.grid);
 			if(big_win == -1){
@@ -78,7 +78,7 @@ module.exports = class State {
 		for(let n = 1; n <= this.config.size; n++){
 			for(let check in this.config.checks){
 				let win = true;
-				let crd = oD2D(n);
+				let crd = this.oD2D(n);
 				for(let i = 1; win && i < this.config.win_req; i++){
 					if(board[n].winner == null){
 						win = false;
@@ -90,7 +90,7 @@ module.exports = class State {
 						win = false;
 						break;
 					}
-					if(board[tD1D(ncrd)].winner != board[n].winner){
+					if(board[this.tD1D(ncrd)].winner != board[n].winner){
 						win = false;
 						break;
 					}
