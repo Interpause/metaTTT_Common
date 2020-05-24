@@ -11,20 +11,16 @@ module.exports.unfound = "NOT FOUND LOL";
 //General
 module.exports.okay = "OKAY";
 module.exports.error = "FAIL";
+module.exports.null = "NullPointerException";
 module.exports.info = "INFO";
 module.exports.busy = "BUSY";
-//Server commands
+//Server<-->Client events
 module.exports.getSessions = "GET SESSIONS";
 module.exports.getSpecSessions = "GET SPEC SESSIONS";
 module.exports.createSession = "MAKE ME A GAME";
 module.exports.findSession = "FIND ME A GAME";
-module.exports.openPoll = "LONG POLLING";
+module.exports.updateState = "STATE UPDATE";
 module.exports.join = "JOIN";
 module.exports.leave = "LEAVE";
-//Client states
-module.exports.sessionMenu = "SESSION MENU";
-module.exports.spectatorMenu = "SPEC SESSION MENU";
-module.exports.creatingSession = "CREATING SESSION";
-module.exports.findingSession = "FINDING SESSION";
-module.exports.onlineGame = "ONLINE GAME";
-module.exports.eventReceived = "EVENT RECEIVED";
+module.exports.disconnect = "DISCONNECTING";
+module.exports.connect = "HELLO";
