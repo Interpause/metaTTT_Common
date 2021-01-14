@@ -1,3 +1,4 @@
+let g = null;
 try{g = window}
 catch(e){}
 try{g = global}

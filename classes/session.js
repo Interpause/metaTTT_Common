@@ -4,20 +4,22 @@ const gameState = require("../classes/gameState");
 const EventEmitter = require('events');
 
 module.exports = class Session extends EventEmitter {
-	state	  		= {};		//The session's gameState.
-	isStarted 		= false;	//Whether the game has started. Used in server.
-	num_players	  	= 0;		//Number of players currently.
-	max_players		= 0;		//Max number of players as specified in game config.
-	num_spectators 	= 0;		//Number of spectators. Actually unlimited.
-	gconfig   		= gconf;	//Game config. Local default found in session.js.
-	online	  		= false;	//Whether the game is online. Determined by gui presence.
-	gui		  		= null;		//If present in init, online is true.
-	player_ids	  	= [];		//Player's PIDs for checking.
-	spectators	  	= [];		//Spectator's PIDs for checking.
 
 	//Creates the session. If gui is present, starts in local mode. Else server session mode.
 	constructor(gui){
 		super();
+
+		this.state			= {};		//The session's gameState.
+		this.isStarted		= false;	//Whether the game has started. Used in server.
+		this.num_players	= 0;		//Number of players currently.
+		this.max_players	= 0;		//Max number of players as specified in game config.
+		this.num_spectators	= 0;		//Number of spectators. Actually unlimited.
+		this.gconfig		= gconf;	//Game config. Local default found in session.js.
+		this.online			= false;	//Whether the game is online. Determined by gui presence.
+		this.gui			= null;		//If present in init, online is true.
+		this.player_ids		= [];		//Player's PIDs for checking.
+		this.spectators		= [];		//Spectator's PIDs for checking.
+		
 		this.gui = gui;
 		this.online = (gui==null);
 	}

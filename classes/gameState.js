@@ -2,18 +2,18 @@ const enums = require("../utils/enums");
 const gconf = require("../utils/game_config");
 
 module.exports = class State {
-	config 			= gconf;//Default game config
-	history 		= []; 	//history of state
-	player_ids 		= []; 	//player ids
-	grid 			= {}; 	//placement data
-	turns 			= 0; 	//turns passed
-	winner 			= null; //winner id, -1 if draw
-	cur_board 		= null; //current board in play, null means all boards in play
-	cur_player_ind 	= 0; 	//index of current player in player_ids
 	get cur_player() {return this.player_ids[this.cur_player_ind];}
 
 	//if from_json=true, reconstructs State object from js object.
 	constructor(obj,from_json){
+		this.config 		= gconf;//Default game config
+		this.history 		= []; 	//history of state
+		this.player_ids 	= []; 	//player ids
+		this.grid 			= {}; 	//placement data
+		this.turns 			= 0; 	//turns passed
+		this.winner 		= null; //winner id, -1 if draw
+		this.cur_board 		= null; //current board in play, null means all boards in play
+		this.cur_player_ind = 0; 	//index of current player in player_ids
 		if(from_json){
 			this.config = obj.config;
 			this.history = obj.history;
