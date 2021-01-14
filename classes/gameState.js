@@ -1,19 +1,47 @@
 const enums = require("../utils/enums");
 const gconf = require("../utils/game_config");
 
+/**
+ * class for game state
+ */
 module.exports = class State {
-	config 			= gconf;//Default game config
-	history 		= []; 	//history of state
-	player_ids 		= []; 	//player ids
-	grid 			= {}; 	//placement data
-	turns 			= 0; 	//turns passed
-	winner 			= null; //winner id, -1 if draw
-	cur_board 		= null; //current board in play, null means all boards in play
-	cur_player_ind 	= 0; 	//index of current player in player_ids
+	/** the current player id */
 	get cur_player() {return this.player_ids[this.cur_player_ind];}
 
-	//if from_json=true, reconstructs State object from js object.
+	/**
+	 * constructor for a game state
+	 * @param {{}} obj If from_json = true, copy current state from obj
+	 * @param {boolean} from_json When true, copy current state from obj
+	 */
 	constructor(obj,from_json){
+		/** game config, defaults to utils/game_config.js */
+		this.config = gconf;
+		/** history of changes made to state */
+		this.history = [];
+		/** player ids of players */
+		this.player_ids	= [];
+		/**
+		 * type of this.grid, winner is similar to this.winner:
+		 * ```
+		 * {
+		 * 	winner:null,
+		 * 	[subboard]:{
+		 * 		winner:null,
+		 * 		[square]:{ winner:null }
+		 * 	}
+		 * }
+		 * ```
+		 */
+		this.grid	= {};
+		/** turns passed */
+		this.turns = 0;
+		/** index of the player in this.player_ids that won, -1 if draw, null if no winner yet */
+		this.winner = null;
+		/** current sub-board in play, null if all boards in play */
+		this.cur_board = null;
+		/** the index of the current player in this.player_ids */
+		this.cur_player_ind = 0;
+
 		if(from_json){
 			this.config = obj.config;
 			this.history = obj.history;
@@ -38,7 +66,13 @@ module.exports = class State {
 		}
 	}
 
-	//Places move, checks for wins, and updates board.
+	/**
+	 * checks if move is valid, places the move, checks for sub-board wins, and then updates board
+	 * @param {[number,number]} move move by current player
+	 * @throws enums.error if game is already over
+	 * @throws enums.locked if that sub-board is locked and hence cannot be placed in
+	 * @throws enums.occupied if that square is occupied
+	 */
 	place(move){
 		this.checkMoveValid(move);
 		this.grid[move[0]][move[1]].winner = this.cur_player_ind; //winner is set as index, not id
@@ -52,7 +86,10 @@ module.exports = class State {
 		this.cur_player_ind = this.turns % this.config.num_players;
 	}
 
-	//Updates wins in board
+	/**
+	 * checks for wins in sub-boards then the larger board as a whole then updates
+	 * @param {number} ind which sub-board was placed in, hence which sub-board to check
+	 */
 	updateWins(ind){
 		if(this.winner != null) return;
 
@@ -72,7 +109,10 @@ module.exports = class State {
 		}
 	}
 
-	//Abstraction for checking tictactoe wins with arbitrary rules and sizes.
+	/**
+	 * checks win for any board without updating the board
+	 * @param {Object} board the board to check
+	 */
 	checkWin(board){
 		let full = true;
 		for(let n = 1; n <= this.config.size; n++){
@@ -102,14 +142,21 @@ module.exports = class State {
 		return 0;
 	}
 
-	//Basic safeguards against invalid moves
+	/**
+	 * checks if move is valid
+	 * @param {[number,number]} move move by current player
+	 * @throws enums.error if game is already over
+	 * @throws enums.locked if that sub-board is locked and hence cannot be placed in
+	 * @throws enums.occupied if that square is occupied
+	 */
 	checkMoveValid(move){
 		if(this.winner != null) throw new Error(enums.error);
 		if(this.cur_board != null && this.cur_board != move[0]) throw new Error(`${enums.locked}: ${move[0]},${move[1]}`);
 		if(this.grid[move[0]][move[1]].winner != null) throw new Error(`${enums.occupied}: ${move[0]},${move[1]}`);
 	}
 
-	//helper functions to convert from 1D coord to 2D coord and vice versa
+	/** converts 1D "coord" to 2D coord */
 	oD2D(n){return {x:(n - 1) % this.config.grid_len,y:Math.floor((n - 1) / this.config.grid_len)};}
+	/** converts 2D coord to 1D "coord" */
 	tD1D(coord){return coord.y * this.config.grid_len + coord.x + 1;}
 }
