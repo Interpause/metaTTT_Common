@@ -1,9 +1,7 @@
 const enums = require("../utils/enums");
 const gconf = require("../utils/game_config");
 
-/**
- * class for game state
- */
+/** @module State */
 module.exports = class State {
 	/** the current player id */
 	get cur_player() {return this.player_ids[this.cur_player_ind];}

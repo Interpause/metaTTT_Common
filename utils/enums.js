@@ -1,3 +1,5 @@
+/** @module enums */
+module.exports = {};
 /* Lazy stand-in for both custom errors, status code & logging. */
 //Specific
 module.exports.locked = "BOARD LOCKED";

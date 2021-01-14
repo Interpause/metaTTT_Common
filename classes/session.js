@@ -3,7 +3,7 @@ const gconf = require("../utils/game_config");
 const gameState = require("../classes/gameState");
 const EventEmitter = require('events');
 
-/** Class for a game session */
+/** @module Session */
 module.exports = class Session extends EventEmitter {
 
 	/**
