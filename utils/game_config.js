@@ -1,4 +1,3 @@
-/** @module gameConfig */
 module.exports = {
     /** length of grid side */
     grid_len:3,
